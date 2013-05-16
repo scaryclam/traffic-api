@@ -114,3 +114,150 @@ class TimeEntries(BaseApi):
 class TimeAllocations(BaseApi):
     url = '/timeallocations/jobtasks'
 
+    def delete(self, pk):
+        url = "%s/%s" % (self.url, pk)
+        response = self.conn.delete(url)
+        return response
+
+
+class TimeAllocationsCalendarBlocks(BaseApi):
+    url = '/timeallocations//calendarblocks'
+
+    def delete(self,  pk):
+        url = "%s/%s" % (self.url, pk)
+        response = self.conn.delete(url)
+        return response
+
+class CrmClient(BaseApi):
+    url = '/crm/client'
+
+    def get_location_by_id(self, pk):
+        url = "%s/%s/locations" % (self.url, pk)
+        response = self.conn.get(url, headers={'Accept': 'application/json'})
+        return response
+
+
+class CrmSupplier(BaseApi):
+    url = '/crm/supplier'
+
+    def get_location_by_id(self, pk):
+        url = "%s/%s/locations" % (self.url, pk)
+        response = self.conn.get(url, headers={'Accept': 'application/json'})
+        return response
+
+
+class CrmOther(BaseApi):
+    url = '/crm/other'
+
+    def get_location_by_id(self, pk):
+        url = "%s/%s/locations" % (self.url, pk)
+        response = self.conn.get(url, headers={'Accept': 'application/json'})
+        return response
+
+
+class CrmAddress(BaseApi):
+    url = '/crm/address'
+
+    def get_list(self, parent_type='CLIENT', window_size=None, current_page=None, filter_by=None, order=None, data_format='json'):
+        params = populate_params(window_size, current_page, filter_by, order)
+        params['type'] = parent_type
+
+        item_list = self.conn.get(self.url, params,
+                                  headers={'Accept': 'application/json'})
+        return item_list 
+
+
+class CrmEmployee(BaseApi):
+    url = '/crm/employee'
+
+    def get_list(self, parent_type='CLIENT', window_size=None, current_page=None, filter_by=None, order=None, data_format='json'):
+        params = populate_params(window_size, current_page, filter_by, order)
+        params['type'] = parent_type
+   
+        item_list = self.conn.get(self.url, params,
+                                  headers={'Accept': 'application/json'})
+        return item_list
+
+
+class ListItem(object):
+    url = '/listitem'
+
+    def __init__(self, connection):
+        self.conn = connection
+
+    def get_list(self, item_type, window_size=5, current_page=1)
+        url = "%s/%s" % (self.url, item_type)
+        params = {}
+        params['windowSize'] = window_size
+        params['currentPage'] = current_page
+
+        item_list = self.conn.get(url, headers={'Accept': 'application/json'})
+        return item_list
+
+    def get_list_by_id(self, item_type, pk)
+        url = "%s/%s/%s" % (self.url, item_type, pk)
+        
+        item_list = self.conn.get(url, headers={'Accept': 'application/json'})
+        return item_list
+
+    def post(self, item_type, data):
+        url = "%s/%s" % (self.url, item_type)
+        response = self.conn.post(url, body=data,
+                                  headers={'Accept': 'application/json', 'Content-type': 'application/json'})
+        return response
+
+    def put(self, item_type, data):
+        url = "%s/%s" % (self.url, item_type)
+        response = self.conn.post(url, body=data,
+                                  headers={'Accept': 'application/json', 'Content-type': 'application/json'})
+        return response
+
+    def delete(self, item_type, pk)
+        url = "%s/%s/%s" % (self.url, item_type, pk)
+        response = self.conn.delete(url)
+        return response
+
+
+class Tag(BaseApi):
+    url = '/tag'
+
+    def delete(self, pk):
+        url = '%s/%s' % (self.url, str(pk))
+        response = self.conn.delete(url)
+        return response
+
+
+class TaxType(BaseApi):
+    url = '/taxtype'
+
+    def delete(self, pk):
+        url = '%s/%s' % (self.url, pk)
+        response = self.conn.delete(url)
+        return response
+
+
+class ApplicationCountry(object):
+    url = '/application/country'
+
+    def __init__(self, connection):
+        self.conn = connection
+
+    def get_list(self, window_size=None, current_page=None, filter_by=None, order=None, data_format='json'):
+        params = populate_params(window_size, current_page, filter_by, order)
+        item_list = self.conn.get(self.url, params,
+                                  headers={'Accept': 'application/json'})
+        return item_list
+
+
+class InvoiceItems(BaseApi):
+    url = '/invoice/items'
+
+
+class Order(BaseApi):
+    url = '/order'
+
+    def delete(self, pk):
+        url = "%s/%s" % (self.url, str(pk))
+        response = self.conn.delete(url)
+        return response
+
