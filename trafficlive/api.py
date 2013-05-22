@@ -3,16 +3,16 @@ from datetime import datetime
 from trafficlive.connection import Connection
 
 
-def populate_params(window_size=None, , current_page=None, filter_by=None, order=None):
+def populate_params(window_size=None, current_page=None, filter_by=None, order=None):
     params = {}
-        if window_size:
-            params['windowSize'] = window_size
-        if current_page:
-            params['currentPage'] = current_page
-        if filter_by:
-            params['filter'] = filter_by
-        if order:
-            params['order'] = order
+    if window_size:
+       params['windowSize'] = window_size
+    if current_page:
+       params['currentPage'] = current_page
+    if filter_by:
+       params['filter'] = filter_by
+    if order:
+       params['order'] = order
 
     return params
 
@@ -185,7 +185,7 @@ class ListItem(object):
     def __init__(self, connection):
         self.conn = connection
 
-    def get_list(self, item_type, window_size=5, current_page=1)
+    def get_list(self, item_type, window_size=5, current_page=1):
         url = "%s/%s" % (self.url, item_type)
         params = {}
         params['windowSize'] = window_size
@@ -194,7 +194,7 @@ class ListItem(object):
         item_list = self.conn.get(url, headers={'Accept': 'application/json'})
         return item_list
 
-    def get_list_by_id(self, item_type, pk)
+    def get_list_by_id(self, item_type, pk):
         url = "%s/%s/%s" % (self.url, item_type, pk)
         
         item_list = self.conn.get(url, headers={'Accept': 'application/json'})
@@ -212,7 +212,7 @@ class ListItem(object):
                                   headers={'Accept': 'application/json', 'Content-type': 'application/json'})
         return response
 
-    def delete(self, item_type, pk)
+    def delete(self, item_type, pk):
         url = "%s/%s/%s" % (self.url, item_type, pk)
         response = self.conn.delete(url)
         return response
