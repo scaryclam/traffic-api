@@ -8,3 +8,7 @@ interface to be able to construct their own however they want.
 It should also help to provide the benefit of allowing companies to
 create pugins for their own internal systems.
 
+The API and some example data for traffic can be found here:
+http://trafficlive.com/_documentation/api/
+
+
