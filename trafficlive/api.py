@@ -30,7 +30,7 @@ class BaseApi(object):
     def get_by_id(self, pk, data_format='json'):
         url = "%s/%s" % (self.url, str(pk))
         item = self.conn.get(url, headers={'Accept': 'application/json'})
-        return item
+        return item.content
 
     def post(self, data):
         response = self.conn.post(self.url, body=simplejson.dumps(data),

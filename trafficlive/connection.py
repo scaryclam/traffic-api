@@ -1,17 +1,19 @@
-#import requests
 import simplejson
 import requests
 
 
 class Connection(object):
-    def __init__(self, base_url, api_key):
+    def __init__(self, base_url, api_key, username):
         self.base_url = base_url
         self.api_key = api_key
+        self.username = username
 
     def get(self, url, params, headers=None):
-        full_url = self._build_url(url, params)
-        response = requests.get(full_url, headers=headers)
-        return response
+        full_url = self._build_url(url)
+        if not headers:
+            headers = {}
+        response = requests.get(full_url, headers=headers, auth=(self.username, self.api_key))
+        return simplejson.loads(response.content)
 
     def post(self):
         pass
@@ -22,8 +24,8 @@ class Connection(object):
     def delete(self):
         pass
 
-    def _build_url(self, url, params):
-        pass
+    def _build_url(self, url):
+        return "%s%s" % (self.base_url, url)
 
 
 class DummyConnection(Connection):
