@@ -8,11 +8,14 @@ class Connection(object):
         self.api_key = api_key
         self.username = username
 
-    def get(self, url, params, headers=None):
+    def get(self, url, params=None, headers=None):
         full_url = self._build_url(url)
         if not headers:
             headers = {}
-        response = requests.get(full_url, headers=headers, auth=(self.username, self.api_key))
+        if not params:
+            params = {}
+        response = requests.get(full_url, headers=headers, params=params,
+                                auth=(self.username, self.api_key))
         return simplejson.loads(response.content)
 
     def post(self):

@@ -30,7 +30,7 @@ class BaseApi(object):
     def get_by_id(self, pk, data_format='json'):
         url = "%s/%s" % (self.url, str(pk))
         item = self.conn.get(url, headers={'Accept': 'application/json'})
-        return item.content
+        return item
 
     def post(self, data):
         response = self.conn.post(self.url, body=simplejson.dumps(data),
@@ -121,12 +121,18 @@ class TimeAllocations(BaseApi):
 
 
 class TimeAllocationsCalendarBlocks(BaseApi):
-    url = '/timeallocations//calendarblocks'
+    url = '/timeallocations/calendarblocks'
 
     def delete(self,  pk):
         url = "%s/%s" % (self.url, pk)
         response = self.conn.delete(url)
         return response
+
+    def get_by_employee(self, employee_pk):
+        url = "/staff/employee/%s/calendarblockallocations" % employee_pk
+        response = self.conn.get(url, headers={'Accept': 'application/json'})
+        return response
+
 
 class CrmClient(BaseApi):
     url = '/crm/client'

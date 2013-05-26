@@ -9,5 +9,9 @@ if __name__ == '__main__':
     api_key = config.get('API', 'KEY')
     username = config.get('API', 'USERNAME')
     client = client.Client(api_key, username)
-    client.get_employee_list()
+    #client.get_employee_list()
+    employee = client.get_employee_id(5534)
+    time_blocks = employee.get_time_calendar_blocks(client.connection)
+    import ipdb
+    ipdb.set_trace()
 
