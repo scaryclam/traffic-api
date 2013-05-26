@@ -1,5 +1,6 @@
 #import requests
 import simplejson
+import requests
 
 
 class Connection(object):
