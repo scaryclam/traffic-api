@@ -41,8 +41,30 @@ class Employee(object):
         self.last_name = data['employeeDetails']['personalDetails']['lastName']
 
     def get_time_calendar_blocks(self, conn):
-        """ NOTE: conn will be removed when a refactor is done
+        """ NOTE: conn may be removed when a refactor is done
         """
-        cal_blocks = api.TimeAllocationsCalendarBlocks(conn).get_by_employee(self.staff_id)
+        cal_blocks = []
+        data = api.TimeAllocationsCalendarBlocks(conn).get_by_employee(self.staff_id)
+        for block in data['resultList']:
+            cal_blocks.append(TimeAllocationCalendarBlock(block))
+
         return cal_blocks
+
+
+class TimeAllocationCalendarBlock(object):
+    def __init__(self, data):
+        self.allocation_intervals = data['allocationIntervals']
+        self.cal_block_list_item_id = data['calendarBlockListItemId']
+        self.created_by_user_id = data['createdByUserId']['id']
+        self.created_in_external_cal = data['createdInExternalCalendar']
+        self.date_modified = data['dateModified']
+        self.description = data['description']
+        self.external_cal_tag = data['externalCalendarTag']
+        self.external_cal_uuid = data['externalCalendarUUID']
+        self.external_recurring_event = data['externalRecurringEvent']
+        self.cal_block_id = data['id']
+        self.open_to_edit = data['openToEdit']
+        self.traffic_employee_id = data['trafficEmployeeId']['id']
+        self.uuid = data['uuid']
+        self.version = data['version']
 
