@@ -10,7 +10,8 @@ if __name__ == '__main__':
     username = config.get('API', 'USERNAME')
     client = client.Client(api_key, username)
     #client.get_employee_list()
-    employee = client.get_employee_id(5534)
+    employee_id = 1234
+    employee = client.get_employee_id(employee_id)
     time_blocks = employee.get_time_calendar_blocks(client.connection)
     import ipdb
     ipdb.set_trace()
