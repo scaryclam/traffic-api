@@ -34,12 +34,12 @@ class BaseApi(object):
 
     def post(self, data):
         response = self.conn.post(self.url, body=simplejson.dumps(data),
-                                  headers={'Accept': 'application/json', 'Content-type': 'appication/json'})
+                                  headers={'Accept': 'application/json', 'Content-type': 'application/json'})
         return response
 
     def put(self, data):
         response = self.conn.put(self.url, body=simplejson.dumps(data),
-                                 headers={'Accept': 'application/json', 'Content-type': 'appication/json'})
+                                 headers={'Accept': 'application/json', 'Content-type': 'application/json'})
         return response
 
 
@@ -96,10 +96,10 @@ class ChargeBandCustomRateSet(BaseApi):
 class TimeEntries(BaseApi):
     url = '/timeentries'
 
-    def get_list(self, start_date, end_date, window_size=None, current_page=None, filter_by=None, order=None, data_format='json'):
+    def get_list(self, start_date=None, end_date=None, window_size=None, current_page=None, filter_by=None, order=None, data_format='json'):
         params = populate_params(window_size, current_page, filter_by, order)
-        params['startDate'] = start_date
-        params['endDate'] = end_date
+        params['startDate'] = start_date.strftime('%Y-%m-%d')
+        params['endDate'] = end_date.strftime('%Y-%m-%d')
 
         item_list = self.conn.get(self.url, params,
                                   headers={'Accept': 'application/json'})
