@@ -96,7 +96,7 @@ class Employee(object):
 
         return cal_blocks
 
-    def get_time_entrys(self, conn, start_date, end_date, window_size=None, current_page=None):
+    def get_time_entries(self, conn, start_date, end_date, window_size=None, current_page=None):
         filter_str = ''
         time_entry_list = api.TimeEntries(conn).get_list(window_size=window_size,
                                                          current_page=current_page,
