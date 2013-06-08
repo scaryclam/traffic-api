@@ -66,7 +66,7 @@ class Client(object):
                                                order=order,
                                                start_date=start_date,
                                                end_date=end_date)
-        return time_entry_list, page
+        return time_entry_list['resultList'], page
 
 
 class Employee(object):
