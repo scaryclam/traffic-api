@@ -97,14 +97,13 @@ class Employee(object):
         return cal_blocks
 
     def get_time_entries(self, conn, start_date, end_date, window_size=None, current_page=None):
-        filter_str = ''
-        import ipdb
-        ipdb.set_trace()
-        time_entry_list = api.TimeEntries(conn).get_list(window_size=window_size,
-                                                         current_page=current_page,
-                                                         start_date=start_date,
-                                                         end_date=end_date)
-        return time_entry_list['resultList']
+        filter_str = 'trafficEmployeeId|EQ|%s' % self.staff_id
+        time_entry_list, page = api.TimeEntries(conn).get_list(window_size=window_size,
+                                                               current_page=current_page,
+                                                               filter_by=filter_str,
+                                                               start_date=start_date,
+                                                               end_date=end_date)
+        return time_entry_list, page
 
 
 class TimeAllocationCalendarBlock(object):

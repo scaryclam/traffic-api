@@ -103,7 +103,7 @@ class TimeEntries(BaseApi):
 
         item_list = self.conn.get(self.url, params,
                                   headers={'Accept': 'application/json'})
-        return item_list
+        return item_list['resultList'], item_list['currentPage']
 
     def post_batch(self, data, force_update=False):
         url = "%s/%s" % (self.url, 'batch')
