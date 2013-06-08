@@ -102,6 +102,7 @@ class Employee(object):
                                                          current_page=current_page,
                                                          start_date=start_date,
                                                          end_date=end_date)
+        return time_entry_list
 
 
 class TimeAllocationCalendarBlock(object):
