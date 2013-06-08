@@ -9,6 +9,6 @@ setup(name='TrafficApi',
       author='Becky Lewis',
       author_email='trafficapi@scaryclam.co.uk',
       url='https://github.com/scaryclam/traffic-api',
-      packages=['trafficapi'],
+      packages=['trafficlive'],
 )
 
