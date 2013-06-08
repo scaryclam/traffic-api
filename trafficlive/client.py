@@ -66,7 +66,7 @@ class Client(object):
                                                order=order,
                                                start_date=start_date,
                                                end_date=end_date)
-        return time_entry_list['resultList'], page
+        return time_entry_list
 
 
 class Employee(object):
@@ -102,7 +102,7 @@ class Employee(object):
                                                          current_page=current_page,
                                                          start_date=start_date,
                                                          end_date=end_date)
-        return time_entry_list
+        return time_entry_list['resultList']
 
 
 class TimeAllocationCalendarBlock(object):
