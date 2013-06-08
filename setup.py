@@ -10,5 +10,6 @@ setup(name='TrafficApi',
       author_email='trafficapi@scaryclam.co.uk',
       url='https://github.com/scaryclam/traffic-api',
       packages=['trafficlive'],
+      install_requires=['simplejson', 'requests'],
 )
 
