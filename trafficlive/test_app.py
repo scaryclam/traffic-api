@@ -17,9 +17,9 @@ def get_client():
 def get_one_weeks_time(employee_id, start_date, client):
     filter_str = 'trafficEmployeeId|EQ|%s' % str(employee_id)
     end_date = start_date + timedelta(days=7)
-    blocks, page = client.get_time_entry_list(filter_by=filter_str,
-                                              start_date=start_date,
-                                              end_date=end_date)
+    blocks = client.get_time_entry_list(filter_by=filter_str,
+                                        start_date=start_date,
+                                        end_date=end_date)
     return blocks
 
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     client = get_client()
     employee_id = 1234
     start_date = datetime(day=03, month=06, year=2013) - timedelta(days=7)
-    time_entries= get_one_weeks_time(employee_id, start_date, client)
+    time_entries = get_one_weeks_time(employee_id, start_date, client)
     for entry in time_entries:
         job = client.get_job_id(entry.job_id)
         job.get_job_detail(client.connection)
