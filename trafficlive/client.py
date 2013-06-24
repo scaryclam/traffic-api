@@ -4,10 +4,11 @@ from trafficlive import api, connection
 
 
 class Client(object):
-    def __init__(self, api_key, username):
+    def __init__(self, api_key, username, base_url=None):
         self.api_key = api_key
-        self.connection = connection.Connection(
-                'https://api.sohnar.com/TrafficLiteServer/openapi', api_key, username)
+        if not base_url:
+            base_url = 'https://production-sohnar.apigee.com/TrafficLiteServer/openapi'
+        self.connection = connection.Connection(base_url, api_key, username)
         self.username = username
 
     def _get_list(self, api_method, obj_class, **kwargs):
