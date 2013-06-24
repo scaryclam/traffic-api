@@ -68,6 +68,15 @@ class Client(object):
                                                end_date=end_date)
         return time_entry_list
 
+    def get_time_allocation_list(self, window_size=None, current_page=None, filter_by=None, order=None):
+        time_allocation_list, page = self._get_list(api.TimeAllocations(self.connection).get_list,
+                                                    TimeAllocation,
+                                                    window_size=window_size,
+                                                    current_page=current_page,
+                                                    filter_by=filter_by,
+                                                    order=order)
+        return time_allocation_list, page
+
 
 class Employee(object):
     def __init__(self, data):
@@ -105,6 +114,19 @@ class Employee(object):
                                                                end_date=end_date)
         return time_entry_list, page
 
+    def get_time_allocations(self, conn, window_size=None, current_page=None):
+        filter_str = 'trafficEmployeeId|EQ|%s' % self.staff_id
+        time_allocation_list = []
+        #import ipdb
+        #ipdb.set_trace()
+        data = api.TimeAllocations(conn).get_list(window_size=window_size,
+                                                  current_page=current_page,
+                                                  filter_by=filter_str)
+        for item in data['resultList']:
+            time_allocation_list.append(TimeAllocation(item))
+
+        return time_allocation_list, data['currentPage']
+
 
 class TimeAllocationCalendarBlock(object):
     def __init__(self, data):
@@ -120,6 +142,33 @@ class TimeAllocationCalendarBlock(object):
         self.cal_block_id = data['id']
         self.open_to_edit = data['openToEdit']
         self.traffic_employee_id = data['trafficEmployeeId']['id']
+        self.uuid = data['uuid']
+        self.version = data['version']
+
+
+class TimeAllocation(object):
+    def __init__(self, data):
+        self.allocation_intervals = data['allocationIntervals']
+        self.client_name = data['clientName']
+        self.date_modified = data['dateModified']
+        self.dependancy_task_deadline = data['dependancyTaskDeadline']
+        self.duration_in_minutes = data['durationInMinutes']
+        self.external_calendar_tag = data['externalCalendarTag']
+        self.external_calendar_uuid = data['externalCalendarUUID']
+        self.happy_rating = data['happyRating']
+        self.time_allocation_id = data['id']
+        self.is_task_complete = data['isTaskComplete']
+        self.is_task_milestone = data['isTaskMilesone']
+        self.job_id = data['jobId']
+        self.job_name = data['jobName']
+        self.job_number_search_wrapper = data['jobNumberSearchWrapper']
+        self.job_stage_description = data['jobStageDescription']
+        self.job_stage_uuid = data['jobStageUUID']
+        self.job_task_id = data['jobTaskId']
+        self.task_deadline = data['taskDeadline']
+        self.task_description = data['taskDescription']
+        self.total_time_logged_in_minutes = data['totalTimeLoggedMinutes']
+        self.traffic_employee_id = data['trafficEmployeeId']
         self.uuid = data['uuid']
         self.version = data['version']
 
