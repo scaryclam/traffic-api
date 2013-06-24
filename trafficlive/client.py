@@ -7,7 +7,7 @@ class Client(object):
     def __init__(self, api_key, username):
         self.api_key = api_key
         self.connection = connection.Connection(
-                'https://api.sohnar.com/TrafficLiteServer/openapi', api_key, username)
+                'https://production-sohnar.apigee.com/TrafficLiteServer/openapi', api_key, username)
         self.username = username
 
     def _get_list(self, api_method, obj_class, **kwargs):
