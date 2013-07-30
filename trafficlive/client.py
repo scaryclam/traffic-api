@@ -87,11 +87,14 @@ class Employee(object):
         self.first_name = data['employeeDetails']['personalDetails']['firstName']
         self.last_name = data['employeeDetails']['personalDetails']['lastName']
 
-    def get_time_calendar_blocks(self, conn):
+    def get_time_calendar_blocks(self, conn, window_size=None, current_page=None, order=None):
         """ NOTE: conn may be removed when a refactor is done
         """
         cal_blocks = []
-        data = api.TimeAllocationsCalendarBlocks(conn).get_by_employee(self.staff_id)
+        data = api.TimeAllocationsCalendarBlocks(conn).get_by_employee(self.staff_id,
+                                                                       window_size=window_size,
+                                                                       current_page=current_page,
+                                                                       order=order)
         for block in data['resultList']:
             cal_blocks.append(TimeAllocationCalendarBlock(block))
 
@@ -99,12 +102,12 @@ class Employee(object):
 
     def get_time_entries(self, conn, start_date, end_date, window_size=None, current_page=None):
         filter_str = 'trafficEmployeeId|EQ|%s' % self.staff_id
-        time_entry_list, page = api.TimeEntries(conn).get_list(window_size=window_size,
-                                                               current_page=current_page,
-                                                               filter_by=filter_str,
-                                                               start_date=start_date,
-                                                               end_date=end_date)
-        return time_entry_list, page
+        time_entry_list = api.TimeEntries(conn).get_list(window_size=window_size,
+                                                         current_page=current_page,
+                                                         filter_by=filter_str,
+                                                         start_date=start_date,
+                                                         end_date=end_date)
+        return time_entry_list
 
 
 class TimeAllocationCalendarBlock(object):
@@ -123,6 +126,8 @@ class TimeAllocationCalendarBlock(object):
         self.traffic_employee_id = data['trafficEmployeeId']['id']
         self.uuid = data['uuid']
         self.version = data['version']
+        self.earliest_interval_start = data['earliestIntervalStart']
+        self.latest_interval_end = data['latestIntervalEnd']
 
 
 class Project(object):
