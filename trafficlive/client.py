@@ -108,18 +108,20 @@ class Employee(object):
 
     def get_time_entries(self, conn, start_date, end_date, window_size=None, current_page=None):
         filter_str = 'trafficEmployeeId|EQ|%s' % self.staff_id
-        time_entry_list, page = api.TimeEntries(conn).get_list(window_size=window_size,
-                                                               current_page=current_page,
-                                                               filter_by=filter_str,
-                                                               start_date=start_date,
-                                                               end_date=end_date)
-        return time_entry_list, page
+        time_entries = []
+        time_entry_list = api.TimeEntries(conn).get_list(window_size=window_size,
+                                                         current_page=current_page,
+                                                         filter_by=filter_str,
+                                                         start_date=start_date,
+                                                         end_date=end_date)
+        for entry in time_entry_list['resultList']:
+            time_entries.append(TimeEntry(entry))
+
+        return time_entries
 
     def get_time_allocations(self, conn, window_size=None, current_page=None):
         filter_str = 'trafficEmployeeId|EQ|%s' % self.staff_id
         time_allocation_list = []
-        #import ipdb
-        #ipdb.set_trace()
         data = api.TimeAllocations(conn).get_list(window_size=window_size,
                                                   current_page=current_page,
                                                   filter_by=filter_str)
@@ -127,6 +129,24 @@ class Employee(object):
             time_allocation_list.append(TimeAllocation(item))
 
         return time_allocation_list, data['currentPage']
+
+    def get_job_task_allocations(self, conn, window_size=None, current_page=None):
+        data = api.JobTaskAllocation(conn).get_by_employee(
+            self.staff_id, window_size=window_size, current_page=current_page)
+        #for item in data['resultList']:
+        return data['resultList']
+
+
+class JobTaskAllocationInterval(object):
+    def __init__(self, data):
+        self.uuid = data['uuid']
+        self.allocation_interval_status = data['allocationIntervalStatus']
+        self.date_modified = data['dateModified']
+        self.version = 1
+        self.duration_in_seconds = data['durationInSeconds']
+        self.start_time = data['startTime']
+        self.end_time = data['endTime']
+        self.id = data['id']
 
 
 class TimeAllocationCalendarBlock(object):
@@ -149,7 +169,9 @@ class TimeAllocationCalendarBlock(object):
 
 class TimeAllocation(object):
     def __init__(self, data):
-        self.allocation_intervals = data['allocationIntervals']
+        self.allocation_intervals = []
+        for allocation in data['allocationIntervals']:
+            self.allocation_intervals.append(JobTaskAllocationInterval(allocation))
         self.client_name = data['clientName']
         self.date_modified = data['dateModified']
         self.dependancy_task_deadline = data['dependancyTaskDeadline']
@@ -262,7 +284,10 @@ class TimeEntry(object):
         self.task_rate = data['taskRate']
         self.value_of_time_entry = data['valueOfTimeEntry']
         self.job_id = data['jobId']['id']
-        self.allocation_group_id = data['allocationGroupId']['id']
+        if data['allocationGroupId']:
+            self.allocation_group_id = data['allocationGroupId']['id']
+        else:
+            self.allocation_group_id = None
         self.charge_band_id = data['chargeBandId']
         self.time_entry_cost = data['timeEntryCost']
         self.time_entry_personal_rate = data['timeEntryPersonalRate']
