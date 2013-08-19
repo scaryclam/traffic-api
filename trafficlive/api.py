@@ -1,4 +1,5 @@
 from datetime import datetime
+import simplejson
 
 from trafficlive.connection import Connection
 
@@ -151,9 +152,13 @@ class TimeAllocationsCalendarBlocks(BaseApi):
         response = self.conn.delete(url)
         return response
 
-    def get_by_employee(self, employee_pk):
+    def get_by_employee(self, employee_pk, window_size=None, current_page=None, filter_by=None, order=None, data_format='json'):
         url = "/staff/employee/%s/calendarblockallocations" % employee_pk
-        response = self.conn.get(url, headers={'Accept': 'application/json'})
+        filter_by = 'earliestIntervalStart|GE|"2013-07-21T07:00:00.00+0000"'
+        params = populate_params(window_size, current_page, filter_by, order)
+        import ipdb
+        ipdb.set_trace()
+        response = self.conn.get(url, params, headers={'Accept': 'application/json'})
         return response
 
 
