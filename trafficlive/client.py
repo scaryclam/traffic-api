@@ -244,7 +244,7 @@ class Job(object):
         self.multi_currency_rate = data['multicurrencyRate']
         self.other_currency = data['otherCurrency']
         self.secondary_external_code = data['secondaryExternalCode']
-        self.tcid = data['tcId']
+        self.tcid = data.get('tcId', None)
         self.version = data['version']
         self.job_detail = None
 
