@@ -78,6 +78,16 @@ class Client(object):
                                                     order=order)
         return time_allocation_list, page
 
+    def send_new_time_entry(self, time_entry):
+        result = api.TimeEntries(self.connection).put(time_entry.create_json_payload(create_new=True))
+
+    def update_time_entry(self, time_entry):
+        result = api.TimeEntries(self.connection).post(time_entry.create_json_payload())
+
+    def get_time_entry(self, time_entry_pk):
+        time_entry = api.TimeEntries(self.connection).get_by_id(time_entry_pk)
+        return TimeEntry(time_entry)
+
 
 class Employee(object):
     def __init__(self, data):
@@ -289,7 +299,7 @@ class TimeEntry(object):
         self.task_rate = data['taskRate']
         self.value_of_time_entry = data['valueOfTimeEntry']
         self.job_id = data['jobId']['id']
-        if data['allocationGroupId']:
+        if data.get('allocationGroupId', False):
             self.allocation_group_id = data['allocationGroupId']['id']
         else:
             self.allocation_group_id = None
@@ -303,3 +313,45 @@ class TimeEntry(object):
         self.work_points = data['workPoints']
         self.start_time = data['startTime']
 
+    def create_json_payload(self, create_new=False):
+        """ Creates a custom json payload
+        """
+        payload = {
+            "jobId": {"id": self.job_id},
+            #"allocationGroupId": {"id": self.allocation_group_id},
+            "jobStageDescription": self.job_stage_description,
+            "timeEntryCost": self.time_entry_cost,
+            "timeEntryPersonalRate": self.time_entry_personal_rate,
+            "valueOfTimeEntry": self.value_of_time_entry,
+            "exported": self.exported,
+            "lockedByApproval": self.locked_by_approval,
+            "endTime": self.end_time,
+            "workPoints": self.work_points,
+            "billable": self.billable,
+            "version": self.version,
+            "startTime": self.start_time,
+            "id": self.time_entry_id,
+            "jobTaskId": {"id": self.job_task_id},
+            "trafficEmployeeId": {"id": self.traffic_employee_id},
+            "taskDescription": self.task_description,
+            "chargeBandId": self.charge_band_id,
+            "minutes": self.minutes,
+            "lockedByApprovalEmployeeId": self.locked_by_approval_employee_id,
+            "exportError": self.export_error,
+            "taskRate": self.task_rate,
+            "taskComplete": self.task_complete,
+            "lockedByApprovalDate": self.locked_by_approval_date,
+            "comment": self.comment
+        }
+        if not create_new:
+            payload['dateModified'] = self.date_modified
+
+        return payload
+
+    def create_payload(self, payload_type='json'):
+        if payload_type == 'json':
+            return self.create_json_payload()
+
+
+class ChargeBand(object):
+    pass

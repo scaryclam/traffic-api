@@ -18,11 +18,23 @@ class Connection(object):
                                 auth=(self.username, self.api_key))
         return simplejson.loads(response.content)
 
-    def post(self):
-        pass
+    def post(self, url, body=None, headers=None):
+        full_url = self._build_url(url)
+        if not headers:
+            headers = {}
+        response = requests.post(full_url, headers=headers, data=body,
+                                 auth=(self.username, self.api_key))
+        return response
 
-    def put(self):
-        pass
+    def put(self, url, body=None, headers=None):
+        full_url = self._build_url(url)
+        if not headers:
+            headers = {}
+        import ipdb
+        ipdb.set_trace()
+        response = requests.put(full_url, headers=headers, data=body,
+                                auth=(self.username, self.api_key))
+        return response
 
     def delete(self):
         pass
@@ -83,11 +95,11 @@ class DummyConnection(Connection):
             "trafficEmployeeCalendar":null
          },
          "chargeBandAllocationsIds":[
-            
+
          ],
          "personalRateChargeBandId":null,
          "employeeGroupIds":[
-            
+
          ],
          "isResource":false
       },
@@ -133,11 +145,11 @@ class DummyConnection(Connection):
             "trafficEmployeeCalendar":null
          },
          "chargeBandAllocationsIds":[
-            
+
          ],
          "personalRateChargeBandId":null,
          "employeeGroupIds":[
-            
+
          ],
          "isResource":false
       },
@@ -183,11 +195,11 @@ class DummyConnection(Connection):
             "trafficEmployeeCalendar":null
          },
          "chargeBandAllocationsIds":[
-            
+
          ],
          "personalRateChargeBandId":null,
          "employeeGroupIds":[
-            
+
          ],
          "isResource":false
       },
@@ -233,11 +245,11 @@ class DummyConnection(Connection):
             "trafficEmployeeCalendar":null
          },
          "chargeBandAllocationsIds":[
-            
+
          ],
          "personalRateChargeBandId":null,
          "employeeGroupIds":[
-            
+
          ],
          "isResource":false
       },
@@ -283,11 +295,11 @@ class DummyConnection(Connection):
             "trafficEmployeeCalendar":null
          },
          "chargeBandAllocationsIds":[
-            
+
          ],
          "personalRateChargeBandId":null,
          "employeeGroupIds":[
-            
+
          ],
          "isResource":false
       }
@@ -297,6 +309,6 @@ class DummyConnection(Connection):
 }
 """)
 
-    
+
 
 

@@ -126,13 +126,23 @@ class TimeEntries(BaseApi):
 
         response = self.conn.get(self.url, params,
                                  headers={'Accept': 'application/json'})
-        return response #['resultList'], item_list['currentPage']
+        return response
 
     def post_batch(self, data, force_update=False):
         url = "%s/%s" % (self.url, 'batch')
         response = self.conn.post(url, body=simplejson.dumps(data),
                                   headers={'Accept': 'application/json',
-                                           'Content-type': 'appication/json'})
+                                           'Content-type': 'application/json'})
+
+    def put(self, data):
+        response = self.conn.put(self.url, body=simplejson.dumps(data),
+                                 headers={'Accept': 'application/json',
+                                          'Content-type': 'application/json'})
+
+    def post(self, data):
+        response = self.conn.post(self.url, body=simplejson.dumps(data),
+                                  headers={'Accept': 'application/json',
+                                           'Content-type': 'application/json'})
 
 
 class TimeAllocations(BaseApi):
