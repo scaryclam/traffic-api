@@ -7,7 +7,7 @@ class Client(object):
     def __init__(self, api_key, username, base_url=None):
         self.api_key = api_key
         if not base_url:
-            base_url = 'https://production-sohnar.apigee.com/TrafficLiteServer/openapi'
+            base_url = 'https://api.sohnar.com/TrafficLiteServer/openapi'
         self.connection = connection.Connection(base_url, api_key, username)
         self.username = username
 
@@ -80,6 +80,7 @@ class Client(object):
 
     def send_new_time_entry(self, time_entry):
         result = api.TimeEntries(self.connection).put(time_entry.create_json_payload(create_new=True))
+        return result.content
 
     def update_time_entry(self, time_entry):
         result = api.TimeEntries(self.connection).post(time_entry.create_json_payload())

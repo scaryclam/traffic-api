@@ -138,6 +138,7 @@ class TimeEntries(BaseApi):
         response = self.conn.put(self.url, body=simplejson.dumps(data),
                                  headers={'Accept': 'application/json',
                                           'Content-type': 'application/json'})
+        return response
 
     def post(self, data):
         response = self.conn.post(self.url, body=simplejson.dumps(data),

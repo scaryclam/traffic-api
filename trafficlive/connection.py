@@ -30,8 +30,6 @@ class Connection(object):
         full_url = self._build_url(url)
         if not headers:
             headers = {}
-        import ipdb
-        ipdb.set_trace()
         response = requests.put(full_url, headers=headers, data=body,
                                 auth=(self.username, self.api_key))
         return response
