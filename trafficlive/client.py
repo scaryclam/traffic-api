@@ -314,6 +314,11 @@ class TimeEntry(object):
         self.work_points = data['workPoints']
         self.start_time = data['startTime']
 
+        if not self.time_entry_personal_rate['currencyType']:
+            self.time_entry_personal_rate['currencyType'] = u'GBP'
+        if not self.time_entry_personal_rate['amountString']:
+            self.time_entry_personal_rate['amountString'] = u'0.0'
+
     def create_json_payload(self, create_new=False):
         """ Creates a custom json payload
         """
